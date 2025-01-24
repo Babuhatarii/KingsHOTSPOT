@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kings Hotspot</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'portal/home.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Karibu Kings Hotspot</h1>
+        <p>Fast and reliable internet access just for you!</p>
+    </header>
+    <main>
+        <h2>Choose Your Plan</h2>
+        <div class="payment-options">
+            {% for plan in plans %}
+            <div class="payment-option">
+                <strong>{{ plan.name }}</strong>
+                {{ plan.duration_minutes }} mins - KES {{ plan.price }}
+                <form action="{% url 'process_payment' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                    <input type="text" name="phone_number" placeholder="Enter phone number" required>
+                    <button type="submit">Pay Now</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
+
+
